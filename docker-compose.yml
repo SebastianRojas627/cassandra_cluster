@@ -41,9 +41,6 @@ services:
       - ./scripts/cql/node2:/tmp/cql
     command: bash ./docker_entrypoint.sh/execute-cql.sh
     expose: *expose
-    depends_on:
-      node1:
-        condition: service_healthy
   node3:
     image: cassandra:latest
     container_name: node3
@@ -59,6 +56,3 @@ services:
       - ./scripts/cql/node3:/tmp/cql
     command: bash ./docker_entrypoint.sh/execute-cql.sh
     expose: *expose
-    depends_on:
-      node2:
-        condition: service_healthy

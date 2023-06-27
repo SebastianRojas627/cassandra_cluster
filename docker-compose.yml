@@ -7,6 +7,11 @@ services:
     container_name: node1
     hostname: node1
     mem_limit: 2g
+    healthcheck:
+      test: ["CMD", "cqlsh", "-e", "describe keyspaces"]
+      interval: 5s
+      timeout: 5s
+      retries: 60
     networks:
       - my_network
     ports:
@@ -17,9 +22,7 @@ services:
       CASSANDRA_USER: user
       CASSANDRA_PASSWORD: password
     volumes:
-      - ./scripts/bash:/docker_entrypoint.sh
-      - ./scripts/cql/node1:/tmp/cql
-    command: bash ./docker_entrypoint.sh/execute-cql.sh
+      - ./node1:/opt/dse/node1
     expose: &expose
       - 7000
       - 7001
@@ -31,28 +34,40 @@ services:
     container_name: node2
     hostname: node2
     mem_limit: 2g
+    healthcheck:
+      test: ["CMD", "cqlsh", "-e", "describe keyspaces"]
+      interval: 5s
+      timeout: 5s
+      retries: 60
     networks:
       - my_network
     ports:
       - "9043:9042"
     environment: *environment
     volumes:
-      - ./scripts/bash:/docker_entrypoint.sh
-      - ./scripts/cql/node2:/tmp/cql
-    command: bash ./docker_entrypoint.sh/execute-cql.sh
+      - ./node2:/opt/dse/node2
     expose: *expose
+    depends_on:
+      node1:
+        condition: service_healthy
   node3:
     image: cassandra:latest
     container_name: node3
     hostname: node3
     mem_limit: 2g
+    healthcheck:
+      test: ["CMD", "cqlsh", "-e", "describe keyspaces"]
+      interval: 5s
+      timeout: 5s
+      retries: 60
     networks:
       - my_network
     ports:
       - "9044:9042"
     environment: *environment
     volumes:
-      - ./scripts/bash:/docker_entrypoint.sh
-      - ./scripts/cql/node3:/tmp/cql
-    command: bash ./docker_entrypoint.sh/execute-cql.sh
+      - ./node3:/opt/dse/node3
     expose: *expose
+    depends_on:
+      node2:
+        condition: service_healthy

@@ -23,7 +23,6 @@ services:
       CASSANDRA_PASSWORD: password
     volumes:
       - ./node1.sh:/cassandra_script.sh
-    command: bash -c "/cassandra_script.sh"
     expose: &expose
       - 7000
       - 7001
@@ -47,7 +46,6 @@ services:
     environment: *environment
     volumes:
       - ./node2.sh:/cassandra_script.sh
-    command: bash -c "/cassandra_script.sh"
     expose: *expose
     depends_on:
       node1:
@@ -69,7 +67,6 @@ services:
     environment: *environment
     volumes:
       - ./node3.sh:/cassandra_script.sh
-    command: bash -c "/cassandra_script.sh"
     expose: *expose
     depends_on:
       node2:

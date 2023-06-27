@@ -51,6 +51,9 @@ services:
     volumes:
       - node2:/opt/dse/node2
     expose: *expose
+    depends_on:
+      node1:
+        condition: service_healthy
   node3:
     image: cassandra:latest
     container_name: node3
@@ -69,3 +72,6 @@ services:
     volumes:
       - node3:/opt/dse/node3
     expose: *expose
+    depends_on:
+      node2:
+        condition: service_healthy

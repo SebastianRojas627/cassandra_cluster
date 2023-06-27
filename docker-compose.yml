@@ -1,6 +1,10 @@
 version: "3"
 networks:
   my_network:
+volumes:
+  node1:
+  node2:
+  node3:
 services:
   node1:
     image: cassandra:latest
@@ -22,7 +26,7 @@ services:
       CASSANDRA_USER: user
       CASSANDRA_PASSWORD: password
     volumes:
-      - ./node1:/opt/dse/node1
+      - node1:/opt/dse/node1
     expose: &expose
       - 7000
       - 7001
@@ -45,7 +49,7 @@ services:
       - "9043:9042"
     environment: *environment
     volumes:
-      - ./node2:/opt/dse/node2
+      - node2:/opt/dse/node2
     expose: *expose
     depends_on:
       node1:
@@ -66,7 +70,7 @@ services:
       - "9044:9042"
     environment: *environment
     volumes:
-      - ./node3:/opt/dse/node3
+      - node3:/opt/dse/node3
     expose: *expose
     depends_on:
       node2:

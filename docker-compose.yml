@@ -19,6 +19,7 @@ services:
     environment: &environment
       CASSANDRA_SEEDS: "node1,node2"
       CASSANDRA_CLUSTER_NAME: mbaperro
+      CASSANDRA_USER: user
       CASSANDRA_PASSWORD: password
     volumes:
       - ./node1.sh:/cassandra_script.sh

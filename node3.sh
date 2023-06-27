@@ -1,10 +1,8 @@
 #!/bin/bash
 
-CONTAINER_NAME="node3"
-KEYSPACE_NAME="my_keyspace"
-TABLE_NAME="Person"
-CASSANDRA_PASSWORD="password"
+export CQLSH_USERNAME=user
+export CQLSH_PASSWORD=password
 
-docker exec -it "$CONTAINER_NAME" cqlsh --username=cassandra --password="$CASSANDRA_PASSWORD" -e "USE $KEYSPACE_NAME;"
+cqlsh --username=cassandra --password="$CASSANDRA_PASSWORD" -e "USE $KEYSPACE_NAME;"
 
-docker exec -it "$CONTAINER_NAME" cqlsh --username=cassandra --password="$CASSANDRA_PASSWORD" -e "CONSISTENCY ONE;"
+cqlsh --username=cassandra --password="$CASSANDRA_PASSWORD" -e "CONSISTENCY ONE;"

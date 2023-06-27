@@ -1,0 +1,65 @@
+version: "3"
+networks:
+  my_network:
+services:
+  node1:
+    image: cassandra:latest
+    container_name: node1
+    hostname: node1
+    mem_limit: 2g
+    healthcheck:
+      test: ["CMD", "cqlsh", "-e", "describe keyspaces"]
+      interval: 5s
+      timeout: 5s
+      retries: 60
+    networks:
+      - my_network
+    ports:
+      - "9042:9042"
+    environment: &environment
+      CASSANDRA_SEEDS: "node1,node2"
+      CASSANDRA_CLUSTER_NAME: mbaperro
+    expose: &expose
+      - 7000
+      - 7001
+      - 7199
+      - 9042
+      - 9142
+  node2:
+    image: cassandra:latest
+    container_name: node2
+    hostname: node2
+    mem_limit: 2g
+    healthcheck:
+      test: ["CMD", "cqlsh", "-e", "describe keyspaces"]
+      interval: 5s
+      timeout: 5s
+      retries: 60
+    networks:
+      - my_network
+    ports:
+      - "9043:9042"
+    environment: *environment
+    expose: *expose
+    depends_on:
+      node1:
+        condition: service_healthy
+  node3:
+    image: cassandra:latest
+    container_name: node3
+    hostname: node3
+    mem_limit: 2g
+    healthcheck:
+      test: ["CMD", "cqlsh", "-e", "describe keyspaces"]
+      interval: 5s
+      timeout: 5s
+      retries: 60
+    networks:
+      - my_network
+    ports:
+      - "9044:9042"
+    environment: *environment
+    expose: *expose
+    depends_on:
+      node2:
+        condition: service_healthy

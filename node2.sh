@@ -5,6 +5,6 @@ KEYSPACE_NAME="my_keyspace"
 TABLE_NAME="Person"
 CASSANDRA_PASSWORD="password"
 
-docker-compose exec "$CONTAINER_NAME" cqlsh --username=cassandra --password="$CASSANDRA_PASSWORD" -e "USE $KEYSPACE_NAME;"
+docker exec -it "$CONTAINER_NAME" cqlsh --username=cassandra --password="$CASSANDRA_PASSWORD" -e "USE $KEYSPACE_NAME;"
 
-docker-compose exec "$CONTAINER_NAME" cqlsh --username=cassandra --password="$CASSANDRA_PASSWORD" -e "CONSISTENCY ONE;"
+docker exec -it "$CONTAINER_NAME" cqlsh --username=cassandra --password="$CASSANDRA_PASSWORD" -e "CONSISTENCY ONE;"

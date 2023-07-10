@@ -1,6 +1,6 @@
 version: "3"
 networks:
-  test_network:
+  my_network:
 volumes:
   node1:
   node2:
@@ -17,7 +17,7 @@ services:
       timeout: 5s
       retries: 60
     networks:
-      - test_network
+      - my_network
     ports:
       - "9042:9042"
     environment: &environment
@@ -44,7 +44,7 @@ services:
       timeout: 5s
       retries: 60
     networks:
-      - test_network
+      - my_network
     ports:
       - "9043:9042"
     environment: *environment
@@ -65,7 +65,7 @@ services:
       timeout: 5s
       retries: 60
     networks:
-      - test_network
+      - my_network
     ports:
       - "9044:9042"
     environment: *environment
